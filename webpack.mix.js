@@ -30,14 +30,15 @@ mix.scripts([
     'resources/assets/admin/plugins/jQuery/jquery-2.2.3.min.js',
     'resources/assets/admin/bootstrap/js/bootstrap.min.js',
     'resources/assets/admin/plugins/select2/select2.full.min.js',
-    'resources/assets/admin/plugins/datepicker /bootstrap-datepicker.js',
-    'resources/assets/admin/plugins/datatables /dataTables.bootstrap.min.js',
-    'resources/assets/admin/plugins/datatables /jquery.dataTables.min.js',
+    'resources/assets/admin/plugins/datepicker/bootstrap-datepicker.js',
+    'resources/assets/admin/plugins/datatables/jquery.dataTables.min.js',
+    'resources/assets/admin/plugins/datatables/dataTables.bootstrap.min.js',
     'resources/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js',
     'resources/assets/admin/plugins/fastclick/fastclick.js',
     'resources/assets/admin/plugins/iCheck/icheck.min.js',
     'resources/assets/admin/dist/js/app.min.js',
-    'resources/assets/admin/dist/js/demo.js'
+    'resources/assets/admin/dist/js/demo.js',
+    'resources/assets/admin/dist/js/script.js'
 ], 'public/js/admin.js');
 
 mix.copy('resources/assets/admin/bootstrap/fonts', 'public/fonts');

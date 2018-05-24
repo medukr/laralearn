@@ -33,5 +33,3 @@
     <!-- /.content -->
 </div>
 @endsection
-
-D
