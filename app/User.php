@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 * @property string $name
 * @property string $email
 * @property string $password
-* @property string $image // необходимо добавить в таблицу
+* @property string $avatar // необходимо добавить в таблицу
 * @property int $is_admin
 * @property int $status
 * @property string $remember_token
@@ -35,7 +35,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email'
     ];
 
     /**
@@ -61,7 +61,6 @@ class User extends Authenticatable
     {
         $user = new static();
         $user->fill($fields);
-        $user->password = bcrypt($fields['password']);
         $user->save();
 
         return $user;
@@ -70,31 +69,46 @@ class User extends Authenticatable
     public function edit($fields)
     {
         $this->fill($fields);
-        $this->password = bcrypt($fields['password']);
+
 
         $this->save();
     }
 
+    public function generatePassword($password)
+    {
+        if ($password != null) {
+            $this->password = bcrypt($password);
+            $this->save();
+        }
+    }
+
     public function remove()
     {
+        $this->removeAvatar();
         $this->delete();
     }
 
     public function uploadAvatar($image)
     {
         if ($image == null) return;
-//        File::delete('/upload/'.$this->image);
-        Storage::delete('/upload/'.$this->image); // в классе Storage метод delete() не нашел, но нашел в File
+
+        $this->removeAvatar();
 
         $filename = str_random(10).'.'.$image->extension();
-        $image->saveAs('uploads', $filename);
-        $this->image = $filename;
+        $image->storeAs('upload', $filename);
+        $this->avatar = $filename;
         $this->save();
+    }
+
+    public function removeAvatar(){
+        if ($this->avatar != null) {
+            Storage::delete('/upload/' . $this->avatar);
+        }
     }
 
     public function getAvatar()
     {
-        return isset($this->image) ? '/upload/'.$this->image : '/img/no-user-image.phg';
+        return isset($this->avatar) ? '/upload/'.$this->avatar : '/img/no-user-image.png';
     }
 
     public function makeAdmin()

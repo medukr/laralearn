@@ -13,3 +13,4 @@ yarn-error.log
 .env
 /html_pattern
 /node_modules
+/public/upload
