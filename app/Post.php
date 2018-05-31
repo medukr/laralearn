@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
  * @property string $title;
  * @property string $slug
  * @property string $text
- * @property string $image // нужно добавить в таблицу
+ * @property string $image
  * @property int $category_id
  * @property int $user_id
  * @property int $status
@@ -31,23 +31,23 @@ class Post extends Model
     const IS_DRAFT = 0;
     const IS_PUBLIC = 1;
 
-    protected $fillable  = ['title', 'text'];
+    protected $fillable  = ['title', 'content', 'date'];
 
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function author()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function tags()
     {
         return $this->belongsToMany(
             Tag::class,
-            'past_tags',
+            'post_tags',
             'post_id',
             'tag_id'
         );
@@ -66,6 +66,8 @@ class Post extends Model
     {
         $post = new static();
         $post->fill($field);
+        $post->status = 0;
+        $post->is_featured = 0;
         $post->user_id = 1;
         $post->save();
 
@@ -80,21 +82,25 @@ class Post extends Model
 
     public function remove()
     {
-//        File::delete('/upload/'.$this->image);
-        Storage::delete('/upload/'.$this->image); // в классе Storage метод delete() не нашел, но нашел в File;
+        $this->removeImage();
+        $this->tags()->detach($this->tags->pluck('id'));
         $this->delete();
     }
 
     public function uploadImage($image)
     {
         if ($image == null) return;
-//        File::delete('/upload/'.$this->image);
-        Storage::delete('/upload/'.$this->image); // в классе Storage метод delete() не нашел, но нашел в File
 
+        $this->removeImage();
         $filename = str_random(10).'.'.$image->extension();
-        $image->saveAs('uploads', $filename);
+        $image->storeAs('upload', $filename);
         $this->image = $filename;
         $this->save();
+    }
+
+    public function removeImage()
+    {
+        if ($this->image != null) Storage::delete('/upload/'.$this->image);
     }
 
     public function setCategory($id)
@@ -150,7 +156,35 @@ class Post extends Model
 
     public function getImage()
     {
-        return isset($this->image) ? '/upload/'.$this->image : '/img/no-image.phg';
+        return isset($this->image) ? '/upload/'.$this->image : '/img/no-image.png';
+    }
+
+    public function setDateAttribute($value)
+    {
+        $date = Carbon::createFromFormat('d/m/y', $value)->format('Y-m-d');
+
+        $this->attributes['date'] = $date;
+    }
+
+    public function getDateAttribute($value)
+    {
+
+        $date = Carbon::createFromFormat('Y-m-d', $value)->format('d/m/y');
+
+        return $date;
+    }
+
+
+    public function getCategoryTitle()
+    {
+        return ($this->category != null) ? $this->category->title : 'Нет категории';
+    }
+
+    public function getTagsTitles()
+    {
+        return (!empty($this->tags))
+            ? implode(", ", $this->tags->pluck('title')->all())
+            : 'Нет тегов';
     }
 
 }
