@@ -14,3 +14,6 @@ yarn-error.log
 /html_pattern
 /node_modules
 /public/upload
+/public/plugins
+/public/ckfinder
+

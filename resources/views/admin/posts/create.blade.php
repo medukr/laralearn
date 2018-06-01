@@ -49,9 +49,8 @@
                         </div>
                         <div class="form-group">
                             <label>Теги</label>
-                            {{ Form::select('tags[]', [
-                                $tags
-                                ],
+                            {{ Form::select('tags[]',
+                                [$tags],
                                 null,
                                 ['class' => 'form-control select2',
                                  'multiple' => 'multiple',
