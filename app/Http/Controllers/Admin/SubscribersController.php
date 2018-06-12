@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-use Illuminate\Validation\Rule;
+use App\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UsersController extends Controller
+class SubscribersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
+        $subs = Subscription::all();
+
+        return view('admin.subs.index', compact('subs'));
     }
 
     /**
@@ -27,7 +27,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('admin.subs.create');
     }
 
     /**
@@ -38,18 +38,13 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'avatar' => 'nullable|image'
+        $this->validate($request,[
+           'email' => 'required|email|unique:subscriptions'
         ]);
 
-        $user = User::add($request->all());
-        $user->generatePassword($request->get('password'));
-        $user->uploadAvatar($request->file('avatar'));
+        Subscription::add($request->get('email'));
 
-        return redirect()->route('users.index');
+        return redirect()->route('subscribers.index');
     }
 
     /**
@@ -71,8 +66,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('admin.users.edit', compact('user'));
+        //
     }
 
     /**
@@ -84,22 +78,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-
-        $this->validate($request, [
-           'name' => 'required',
-           'email' => [
-               'required',
-               'email',
-               Rule::unique('users')->ignore($user->id),
-           ]
-        ]);
-
-        $user->edit($request->all()); //name, email
-        $user->generatePassword($request->get('password'));
-        $user->uploadAvatar($request->file('avatar'));
-
-        return redirect()->route('users.index');
+        //
     }
 
     /**
@@ -110,17 +89,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->remove();
+        Subscription::find($id)->delete();
 
-        return redirect()->route('users.index');
-
-    }
-
-    public function toggle($id)
-    {
-        $user = User::find($id);
-        $user->toggleBan();
-
-        return redirect()->route('users.index');
+        return redirect()->route('subscribers.index');
     }
 }

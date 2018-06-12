@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Category;
+use App\Comment;
 use App\Post;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,15 +18,13 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('pages._sidebar', function ($view){
             $view->with('popularPosts', Post::getPopularPosts());
-        });
-        view()->composer('pages._sidebar', function ($view){
+            $view->with('categories', Category::all());
+            $view->with('resentPosts', Post::orderBy('date', 'desc')->take(4)->get());
             $view->with('featuredPosts', Post::where('is_featured', 1)->take(3)->get());
         });
-        view()->composer('pages._sidebar', function ($view){
-            $view->with('resentPosts', Post::orderBy('date', 'desc')->take(4)->get());
-        });
-        view()->composer('pages._sidebar', function ($view){
-            $view->with('categories', Category::all());
+
+        view()->composer('admin._sidebar', function ($view){
+           $view->with('countComments', Comment::where('status', 0)->count());
         });
     }
 
