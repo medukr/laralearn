@@ -12,7 +12,6 @@ class HomeController extends Controller
     public function index()
     {
         $posts = Post::where('status', Post::IS_PUBLIC)->paginate(3);
-  
 
         return view('pages.index', compact(
             'posts'
@@ -22,6 +21,7 @@ class HomeController extends Controller
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
+        $post->plusView();
 
         return view('pages.show', compact('post'));
     }
@@ -42,5 +42,15 @@ class HomeController extends Controller
         $posts = $category->posts()->paginate(2);
 
         return view('pages.list', compact('posts'));
+    }
+
+    public function contacts()
+    {
+        return view('pages.contacts');
+    }
+
+    public function about()
+    {
+        return view ('pages.about');
     }
 }

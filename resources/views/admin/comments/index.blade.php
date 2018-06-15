@@ -38,6 +38,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Текст</th>
+                            <th>Пост</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -46,6 +47,7 @@
                         <tr>
                             <td>{{$comment->id}}</td>
                             <td>{{$comment->text}}</td>
+                            <td><a href="{{ route('post.show', $comment->post->slug) }}">К посту ></a></td>
                             <td>
                                 @if($comment->status == 1)
                                     <a href="/admin/comments/toggle/{{$comment->id}}" class="fa fa-lock" title="Запретить"></a>

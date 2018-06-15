@@ -23,7 +23,7 @@ class ProfileController extends Controller
                 'email',
                 Rule::unique('users')->ignore(Auth::user()->id),
             ],
-            'avatar' => 'nullable|image'
+            'avatar' => 'nullable|image',
         ]);
 
         $user = Auth::user();

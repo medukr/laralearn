@@ -29,7 +29,7 @@
 
                             <div class="social-share">
 							<span
-                                    class="social-share-title pull-left text-capitalize">By {{$post->author->name}} On {{ $post->getDate() }}</span>
+                                    class="social-share-title pull-left text-capitalize">By {{$post->author->name}} On {{ $post->getDate() }} | Views: {{$post->views}}</span>
                                 <ul class="text-center pull-right">
                                     <li><a class="s-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                                     <li><a class="s-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
@@ -41,8 +41,8 @@
                         </div>
                     </article>
                     <div class="top-comment"><!--top comment-->
-                        <img src="/images/comment.jpg" class="pull-left img-circle" alt="">
-                        <h4>Rubel Miah</h4>
+                        <img src="{{$post->author->getAvatar()}}" class="pull-left img-circle" alt="" style="height: 75px; width: 100px">
+                        <h4>{{$post->author->name}}</h4>
 
                         <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy hello ro mod tempor
                             invidunt ut labore et dolore magna aliquyam erat.</p>
@@ -54,16 +54,12 @@
                             <div class="single-blog-box">
                                 <a href="{{ $post->getPrevious()->slug }}">
                                     <img src="{{$post->getPrevious()->getImage()}}" alt="">
-
                                     <div class="overlay">
-
                                         <div class="promo-text">
                                             <p><i class=" pull-left fa fa-angle-left"></i></p>
                                             <h5>{{ $post->getPrevious()->title }}</h5>
                                         </div>
                                     </div>
-
-
                                 </a>
                             </div>
                             @endif

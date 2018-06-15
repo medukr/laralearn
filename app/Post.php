@@ -242,12 +242,24 @@ class Post extends Model
 
     public static function getPopularPosts()
     {
-        return self::orderBy('views', 'desc')->take(3)->get();
+        $lastMonth = Carbon::create(Carbon::now()->year, Carbon::now()->month - 1, Carbon::now()->day - 1);
+        return self::where('date', '>=', $lastMonth)->orderBy('views', 'desc')->take(3)->get();
     }
 
     public function getComments()
     {
         return $this->comments()->where('status', 1)->get();
+    }
+
+    public function getCountComments()
+    {
+        return count($this->getComments());
+    }
+
+    public function plusView()
+    {
+        $this->views += 1;
+        $this->save();
     }
 
 }
