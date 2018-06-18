@@ -16,6 +16,7 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     {
+
         $this->validate($request,[
            'name' => 'required',
             'email' => [
@@ -24,6 +25,7 @@ class ProfileController extends Controller
                 Rule::unique('users')->ignore(Auth::user()->id),
             ],
             'avatar' => 'nullable|image',
+            'user_status' => 'max:120'
         ]);
 
         $user = Auth::user();

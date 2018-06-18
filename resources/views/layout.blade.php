@@ -68,6 +68,7 @@
     <!-- /.container-fluid -->
 </nav>
 <!--main content start-->
+@include('admin.errors')
 @if(session('status'))
     <div class="container">
         <div class="row">
