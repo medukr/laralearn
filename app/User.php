@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
+Use Image;
 
 /**
 * This is the model class for table "users".
@@ -93,22 +94,34 @@ class User extends Authenticatable
         if ($image == null) return;
 
         $this->removeAvatar();
+        $filename = str_random(10);
 
-        $filename = str_random(10).'.'.$image->extension();
-        $image->storeAs('upload', $filename);
+        $imageMain = Image::make($image)->fit(500);
+        $imageMain->save('upload/'.$filename.'.jpg', 90);
+
+        $imageMini = $imageMain->fit(160);
+        $imageMini->save('upload/'.$filename.'_90x90.jpg', 60);
+
         $this->avatar = $filename;
         $this->save();
     }
 
+
     public function removeAvatar(){
         if ($this->avatar != null) {
-            Storage::delete('/upload/' . $this->avatar);
+            Storage::delete('/upload/' . $this->avatar . '.jpg');
+            Storage::delete('/upload/' . $this->avatar. '_90x90.jpg');
         }
     }
 
     public function getAvatar()
     {
-        return isset($this->avatar) ? '/upload/'.$this->avatar : '/img/no-user-image.png';
+        return isset($this->avatar) ? '/upload/'.$this->avatar.'.jpg' : '/img/no-user-image.png';
+    }
+
+    public function getAvatarMini()
+    {
+        return isset($this->avatar) ? '/upload/'.$this->avatar.'_90x90.jpg' : '/img/no-user-image.png';
     }
 
     public function makeAdmin()

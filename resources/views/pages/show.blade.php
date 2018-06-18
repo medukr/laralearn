@@ -41,13 +41,12 @@
                         </div>
                     </article>
                     <div class="top-comment"><!--top comment-->
-                        <img src="{{$post->author->getAvatar()}}" class="pull-left img-circle" alt="" style="height: 75px; width: 100px">
+                        <img src="{{$post->author->getAvatarMini()}}" class="img-circle pull-left" alt="" width="100", height="80">
                         <h4>{{$post->author->name}}</h4>
 
                         <p>{{$post->author->user_status}}</p>
                     </div><!--top comment end-->
                     <div class="row"><!--blog next previous-->
-
                         <div class="col-md-6">
                             @if($post->hasPrevious())
                             <div class="single-blog-box">
@@ -103,7 +102,7 @@
                             @foreach($post->getComments() as $comment)
                     <div class="bottom-comment"><!--bottom comment-->
                         <div class="comment-img">
-                            <img class="img-circle" src="{{$comment->author->getAvatar()}}" alt="" width="75" height="75">
+                            <img class="img-circle" src="{{$comment->author->getAvatarMini()}}" alt="" width="80" height="80">
                         </div>
 
                         <div class="comment-text">

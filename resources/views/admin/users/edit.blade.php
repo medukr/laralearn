@@ -34,11 +34,18 @@
                             <input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="">
                         </div>
                         <div class="form-group">
-                            <img src="{!! $user->getAvatar() !!}" alt="" width="200" class="img-responsive">
+                            <img src="{!! $user->getAvatar() !!}" alt="" class="img-responsive">
+                            <br>
+                            <img src="{!! $user->getAvatarMini() !!}" alt="" class="img-responsive">
+                            <br>
                             <label for="exampleInputFile">Аватар</label>
                             <input type="file" name="avatar" id="exampleInputFile">
 
-                            <p class="help-block">Какое-нибудь уведомление о форматах..</p>
+                            <p class="help-block">*.jpg</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="user_status">Статус</label>
+                            <textarea name="user_status" id="" class="form-control">{{ $user->user_status }}</textarea>
                         </div>
                     </div>
                 </div>

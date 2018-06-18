@@ -45,7 +45,7 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>
-                                <img src="{{$user->getAvatar()}}" alt="" class="img-responsive" width="150">
+                                <img src="{{$user->getAvatarMini()}}" alt="" class="img-responsive" width="150">
                             </td>
                             <td>
                                 @if($user->status == 0)
