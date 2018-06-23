@@ -38,6 +38,7 @@
                             <th>Категория</th>
                             <th>Теги</th>
                             <th>Картинка</th>
+                            <th>Статус</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -51,10 +52,24 @@
                             <td>
                                 <img src="{{ $post->getImage() }}" alt="" width="100">
                             </td>
+                            <td>
+                                @if($post->getPostStatus() == \App\Post::IS_DRAFT)
+                                    <span class="badge alert-danger">Черновик</span>
+                                @elseif($post->getPostStatus() == \App\Post::IS_PUBLIC)
+                                    <span class="badge alert-success">Опубликовано</span>
+                                @else
+                                    <span class="badge alert-warning">Ожидает</span>
+                                @endif
+                            </td>
                             <td><a href="{{ route('posts.edit', $post->id) }}" class="fa fa-pencil"></a>
                                 {{Form::open(['route' => ['posts.destroy', $post->id], 'method' => 'delete'])}}
                                 <button class="delete" onclick="if (!confirm('Are you sure?')) return false"><i class="fa fa-remove"></i></button>
                             {{Form::close()}}
+                                @if($post->status == 1)
+                                    <a href="/post/{{$post->slug}}" title="Перейти к посту"><i class="fa fa-newspaper-o"></i></a>
+                                @else
+                                    <a href="/post/{{$post->slug}}" title="Предпросмотр"><i class="fa fa-puzzle-piece"></i></a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

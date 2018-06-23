@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
@@ -23,5 +24,16 @@ class Category extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public static function getCategoriesHavingPublishPosts()
+    {
+
+        return self::select('categories.id', 'categories.slug', 'categories.title')
+            ->join('posts', 'categories.id','=','posts.category_id')
+            ->where('posts.status', '=', Post::IS_PUBLIC)
+            ->where('posts.date', '<=', Carbon::now())
+            ->groupBy('categories.id')
+            ->get();
     }
 }

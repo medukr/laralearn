@@ -99,25 +99,23 @@
                         </div>
                     </div><!--related post carousel-->
                         @if(!$post->comments->isEmpty())
+
                             @foreach($post->getComments() as $comment)
-                    <div class="bottom-comment"><!--bottom comment-->
+                            <div class="bottom-comment"><!--bottom comment-->
                         <div class="comment-img">
                             <img class="img-circle" src="{{$comment->author->getAvatarMini()}}" alt="" width="80" height="80">
                         </div>
-
                         <div class="comment-text">
                             <a href="#" class="replay btn pull-right"> Replay</a>
                             <h5>{{$comment->author->name}}</h5>
-
                             <p class="comment-date">
                                 {{$comment->created_at->diffForHumans()}}
                             </p>
-
-
                             <p class="para">{{$comment->text}}</p>
                         </div>
-                    </div>
+                            </div>
                             @endforeach
+
                             @endif
                     <!-- end bottom comment-->
 

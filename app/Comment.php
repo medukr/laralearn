@@ -55,4 +55,8 @@ class Comment extends Model
         $this->delete();
     }
 
+    public function getDate()
+    {
+        return $this->updated_at;
+    }
 }

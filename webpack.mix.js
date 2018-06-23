@@ -16,10 +16,12 @@ let mix = require('laravel-mix');
 
 mix.styles([
     'resources/assets/admin/bootstrap/css/bootstrap.min.css',
+    // 'resources/assets/admin/bootstrap-7-4.1.1/css/bootstrap.css',
     'resources/assets/admin/font-awesome/4.5.0/css/font-awesome.min.css',
     'resources/assets/admin/ionicons/2.0.1/css/ionicons.min.css',
     'resources/assets/admin/plugins/iCheck/minimal/_all.css',
-    'resources/assets/admin/plugins/datepicker/datepicker3.css',
+    // 'resources/assets/admin/plugins/datepicker/datepicker3.css',
+    'resources/assets/admin/plugins/datetimepicker/bootstrap-datetimepicker.min.css',
     'resources/assets/admin/plugins/select2/select2.min.css',
     'resources/assets/admin/plugins/datatables/dataTables.bootstrap.css',
     'resources/assets/admin/dist/css/AdminLTE.min.css',
@@ -29,8 +31,11 @@ mix.styles([
 mix.scripts([
     'resources/assets/admin/plugins/jQuery/jquery-2.2.3.min.js',
     'resources/assets/admin/bootstrap/js/bootstrap.min.js',
+    // 'resources/assets/admin/bootstrap-7-4.1.1/js/bootstrap.js',
     'resources/assets/admin/plugins/select2/select2.full.min.js',
-    'resources/assets/admin/plugins/datepicker/bootstrap-datepicker.js',
+    'node_modules/moment/moment.js',
+    // 'resources/assets/admin/plugins/datepicker/bootstrap-datepicker.js',
+    'resources/assets/admin/plugins/datetimepicker/bootstrap-datetimepicker.min.js',
     'resources/assets/admin/plugins/datatables/jquery.dataTables.min.js',
     'resources/assets/admin/plugins/datatables/dataTables.bootstrap.min.js',
     'resources/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js',

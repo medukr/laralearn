@@ -12,7 +12,7 @@ class CommentController extends Controller
     {
         if (Auth::user()->status == 1) return redirect()->back()->with('status', 'вы не можете оствлять комментарии');
         $this->validate($request,[
-           'message' => 'required',
+           'message' => 'required|max:1000',
         ]);
 
         $comment = new Comment();

@@ -5,8 +5,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Blank page
-                <small>it all starts here</small>
+                Комментарии
+                <small>модерацию комментариев можно проводить сдесь</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -21,7 +21,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Листинг сущности</h3>
+                    <h3 class="box-title">Листинг комментариев</h3>
                     @if(session('status'))
                         <div class="alert alert-success">
                             {{session('status')}}
@@ -30,15 +30,12 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div class="form-group">
-                        <a href="create.html" class="btn btn-success">Добавить</a>
-                    </div>
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>Текст</th>
-                            <th>Пост</th>
+                            <th>Дата</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -47,15 +44,18 @@
                         <tr>
                             <td>{{$comment->id}}</td>
                             <td>{{$comment->text}}</td>
-                            <td><a href="{{ route('post.show', $comment->post->slug) }}">К посту ></a></td>
+                            <td>{{$comment->getDate()}}</td>
                             <td>
+                            <a href="{{ route('post.show', $comment->post->slug) }}" title="Посмотреть пост"><i class="fa fa fa-newspaper-o"></i></a>
+                            <a href="{{route('users.edit', $comment->author->id)}}" title="Посмотреть пользователя"><i class="fa fa-user"></i></a>
                                 @if($comment->status == 1)
-                                    <a href="/admin/comments/toggle/{{$comment->id}}" class="fa fa-lock" title="Запретить"></a>
+                                    <a href="/admin/comments/toggle/{{$comment->id}}" class="fa fa-lock" title="Запретить комментарий"></a>
                                 @else
-                                    <a href="/admin/comments/toggle/{{$comment->id}}" class="fa fa-thumbs-o-up" title="Разрешить"></a>
+                                    <a href="/admin/comments/toggle/{{$comment->id}}" class="fa fa-thumbs-o-up" title="Разрешить комментарий"></a>
                                 @endif
+                                    <a href="{{route('comments.edit', $comment->id)}}" class="fa fa-pencil" title="Редактировать комментарий"></a>
                                     {{Form::open(['route' => ['comments.destroy', $comment->id], 'method' => 'delete'])}}
-                                    <button class="delete" onclick="if (!confirm('Are you sure?')) return false"><i class="fa fa-remove"></i></button>
+                                    <button class="delete" onclick="if (!confirm('Are you sure?')) return false" title="Удалить комментарий"><i class="fa fa-remove"></i></button>
                             {{Form::close()}}
                             </td>
                         </tr>

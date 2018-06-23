@@ -5,7 +5,9 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
+
 
 /**
  * This is the model class for table "posts".
@@ -32,6 +34,7 @@ class Post extends Model
 
     const IS_DRAFT = 0;
     const IS_PUBLIC = 1;
+    const IS_WAITING = 2;
 
     protected $fillable  = ['title', 'content', 'date', 'description'];
 
@@ -168,7 +171,7 @@ class Post extends Model
 
     public function setDateAttribute($value)
     {
-        $date = Carbon::createFromFormat('d/m/y', $value)->format('Y-m-d');
+        $date = Carbon::createFromFormat('d/m/Y H:i', $value)->format('Y-m-d H:i:s');
 
         $this->attributes['date'] = $date;
     }
@@ -176,7 +179,7 @@ class Post extends Model
     public function getDateAttribute($value)
     {
 
-        $date = Carbon::createFromFormat('Y-m-d', $value)->format('d/m/y');
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('d/m/Y H:i');
 
         return $date;
     }
@@ -201,7 +204,7 @@ class Post extends Model
 
     public function getDate()
     {
-        $date = Carbon::createFromFormat('d/m/y', $this->date)->format('F d, Y');
+        $date = Carbon::createFromFormat('d/m/Y H:i', $this->date)->format('F d, Y');
 
         return $date;
 
@@ -243,7 +246,12 @@ class Post extends Model
     public static function getPopularPosts()
     {
         $lastMonth = Carbon::create(Carbon::now()->year, Carbon::now()->month - 1, Carbon::now()->day - 1);
-        return self::where('date', '>=', $lastMonth)->orderBy('views', 'desc')->take(3)->get();
+
+        return self::wherePublicAndDate()
+            ->where('date', '>=', $lastMonth)
+            ->orderBy('views', 'desc')
+            ->take(3)
+            ->get();
     }
 
     public function getComments()
@@ -260,6 +268,23 @@ class Post extends Model
     {
         $this->views += 1;
         $this->save();
+    }
+
+    public function getPostStatus()
+    {
+        if ($this->status == self::IS_DRAFT) return self::IS_DRAFT;
+        if ($this->getPostTimestampDate() <= Carbon::now()->timestamp) return self::IS_PUBLIC;
+        return self::IS_WAITING;
+    }
+
+    public function getPostTimestampDate()
+    {
+        return Carbon::createFromFormat('d/m/Y H:i', $this->date)->timestamp;
+    }
+
+    public static function wherePublicAndDate()
+    {
+        return self::where('status', self::IS_PUBLIC)->where('date', '<=', Carbon::now());
     }
 
 }

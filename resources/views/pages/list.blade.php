@@ -6,12 +6,12 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="row">
+                        @if(!empty($posts->total()))
                         @foreach($posts as $post)
                         <div class="col-md-6">
                             <article class="post post-grid">
                                 <div class="post-thumb">
                                     <a href="{{ route('post.show', $post->slug) }}"><img src="{{$post->getImage()}}" alt=""></a>
-
                                     <a href="{{ route('post.show', $post->slug) }}" class="post-thumb-overlay text-center">
                                         <div class="text-uppercase text-center">View Post</div>
                                     </a>
@@ -22,8 +22,6 @@
                                         <h6><a href="{{ route('category.show', $post->category->slug) }}"> {{ $post->getCategoryTitle() }}</a></h6>
                                         @endif
                                         <h1 class="entry-title"><a href="{{ route('post.show', $post->slug) }}">{{$post->title}}</a></h1>
-
-
                                     </header>
                                     <div class="entry-content">
                                         {!! $post->description !!}
@@ -32,10 +30,12 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </article>
                         </div>
                         @endforeach
+                        @else
+                            <h3>Нет постов...</h3>
+                        @endif
                     </div>
                     {{ $posts->links() }}
                 </div>

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Category;
 use App\Comment;
 use App\Post;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,9 +19,15 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('pages._sidebar', function ($view){
             $view->with('popularPosts', Post::getPopularPosts());
-            $view->with('categories', Category::all());
-            $view->with('resentPosts', Post::orderBy('date', 'desc')->take(4)->get());
-            $view->with('featuredPosts', Post::where('is_featured', 1)->take(3)->get());
+            $view->with('categories', Category::getCategoriesHavingPublishPosts());
+            $view->with('resentPosts', Post::wherePublicAndDate()
+                                            ->orderBy('date', 'desc')
+                                            ->take(4)
+                                            ->get());
+            $view->with('featuredPosts', Post::wherePublicAndDate()
+                                            ->where('is_featured', 1)
+                                            ->take(3)
+                                            ->get());
         });
 
         view()->composer('admin._sidebar', function ($view){

@@ -25,14 +25,14 @@
                     @include('admin.errors')
                 </div>
                 <div class="box-body">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Название</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" name="title" value="{{ $post->title }}">
                         </div>
 
                         <div class="form-group">
-                            <img src="{{ $post->getImage() }}" alt="" class="img-responsive" width="200">
+                            <img src="{{ $post->getImage() }}" alt="" class="img-responsive" width="">
                             <label for="exampleInputFile">Лицевая картинка</label>
                             <input type="file" id="exampleInputFile" name="image">
 
@@ -61,16 +61,26 @@
                             }}
                         </div>
                         <!-- Date -->
-                        <div class="form-group">
-                            <label>Дата:</label>
+                        {{--<div class="form-group">--}}
+                            {{--<label>Дата:</label>--}}
 
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" name="date" class="form-control pull-right" id="datepicker" value="{{ $post->date }}">
+                            {{--<div class="input-group date">--}}
+                                {{--<div class="input-group-addon">--}}
+                                    {{--<i class="fa fa-calendar"></i>--}}
+                                {{--</div>--}}
+                                {{--<input type="text" name="date" class="form-control pull-right" id="datepicker" value="{{ $post->date }}">--}}
+                            {{--</div>--}}
+                            {{--<!-- /.input group -->--}}
+                        {{--</div>--}}
+
+                        <div class="form-group">
+                            <label for="date">Дата публикации:</label>
+                            <div class='input-group date' id='datetimepicker'>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <input type='text' class="form-control" value="{{ $post->date }}" name="date">
                             </div>
-                            <!-- /.input group -->
                         </div>
 
                         <!-- checkbox -->
@@ -88,7 +98,7 @@
                                 {{ Form::checkbox('status', 1, $post->status, ['class' => 'minimal']) }}
                             </label>
                             <label>
-                                Черновик
+                                Публиковать
                             </label>
                         </div>
                     </div>

@@ -99,7 +99,7 @@ class User extends Authenticatable
         $imageMain = Image::make($image)->fit(500);
         $imageMain->save('upload/'.$filename.'.jpg', 90);
 
-        $imageMini = $imageMain->fit(160);
+        $imageMini = $imageMain->fit(90);
         $imageMini->save('upload/'.$filename.'_90x90.jpg', 60);
 
         $this->avatar = $filename;
