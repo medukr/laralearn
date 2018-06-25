@@ -435,7 +435,7 @@
 
 <script>
     $(document).ready(function () {
-        let editor = CKEDITOR.replaceAll();
+        let editor = CKEDITOR.replace('.ckeditor');
         CKFinder.setupCKEditor(editor);
     })
 </script>
