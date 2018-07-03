@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Category;
 use App\Comment;
 use App\Post;
-use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

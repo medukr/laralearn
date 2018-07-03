@@ -5,13 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Blank page
-            <small>it all starts here</small>
+            Категории
+            <small>приятные слова...</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Examples</a></li>
-            <li class="active">Blank page</li>
+            <li><a href="{{route('admin.home')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Категории</li>
         </ol>
     </section>
 
@@ -21,7 +20,7 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Листинг сущности</h3>
+                <h3 class="box-title">Список категорий</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

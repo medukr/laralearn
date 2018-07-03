@@ -38,7 +38,7 @@ Route::group(['middleware' => 'guest'], function (){
 
     Route::group(['prefix' => 'admin/', 'namespace' => 'Admin', 'middleware' => ['admin', 'locale']], function (){
 //        App::setLocale($locale);
-        Route::get('/', 'DashboardController@index');
+        Route::get('/', 'DashboardController@index')->name('admin.home');
         Route::resource('/categories', 'CategoriesController');
         Route::resource('/tags', 'TagsController');
         Route::resource('/users', 'UsersController');

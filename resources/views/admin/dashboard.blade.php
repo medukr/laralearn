@@ -21,7 +21,7 @@
             <div class="box-body">
                 Текст инструкции по пользованию админкой
                 <div>
-                    <h3>Cменить язык админки</h3>
+                    <h3>Cменить язык меню</h3>
                     <a href="{{route('language.change', 'en')}}" class="btn btn-info">EN</a>
                     <a href="{{route('language.change', 'ru')}}" class="btn btn-info">РУС</a>
                     <h4>Проверка:</h4>

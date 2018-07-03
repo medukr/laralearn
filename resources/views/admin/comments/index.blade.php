@@ -21,7 +21,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Листинг комментариев</h3>
+                    <h3 class="box-title">Список комментариев</h3>
                     @if(session('status'))
                         <div class="alert alert-success">
                             {{session('status')}}
